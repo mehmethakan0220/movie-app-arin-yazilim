@@ -27,7 +27,8 @@ export default class App extends Component {
             .catch(err => console.log(err))
     }
 
-    deleteMovie = (id) => {
+    deleteMovie = async (id) => {
+        await fetch(`http://localhost:3001/movies/${id}`, { method: "DELETE" })
         const newMovieList = this.state.movies.filter(
             movie => movie.id !== id
         );
