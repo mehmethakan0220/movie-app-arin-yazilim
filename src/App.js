@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import SearchBar from './SearchBar'
 import MovieList from './MovieList'
+import axios from 'axios'
 
 
 
@@ -12,12 +13,18 @@ export default class App extends Component {
     }
 
 
-    async componentDidMount() {
-        let response = await fetch("http://localhost:3001/movies")
-        console.log(response)
-        let data = await response.json();
-        console.log(data)
-        this.setState({ movies: data })
+    // async componentDidMount() {
+    //     let response = await fetch("http://localhost:3001/movies")
+    //     console.log(response)
+    //     let data = await response.json();
+    //     console.log(data)
+    //     this.setState({ movies: data })
+    // }
+
+    componentDidMount() {
+        axios.get("http://localhost:3001/movies")
+            .then(res => this.setState({ movies: res.data }))
+            .catch(err => console.log(err))
     }
 
     deleteMovie = (id) => {
