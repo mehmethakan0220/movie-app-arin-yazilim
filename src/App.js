@@ -27,13 +27,23 @@ export default class App extends Component {
             .catch(err => console.log(err))
     }
 
-    deleteMovie = async (id) => {
-        await fetch(`http://localhost:3001/movies/${id}`, { method: "DELETE" })
+    // deleteMovie = async (id) => {
+    //     await fetch(`http://localhost:3001/movies/${id}`, { method: "DELETE" })
+    //     const newMovieList = this.state.movies.filter(
+    //         movie => movie.id !== id
+    //     );
+    //     this.setState(state => ({ movies: newMovieList }))
+    // }
+
+    deleteMovie = (id) => {
+        axios.delete(`http://localhost:3001/movies/${id}`)
         const newMovieList = this.state.movies.filter(
             movie => movie.id !== id
         );
         this.setState(state => ({ movies: newMovieList }))
     }
+
+
     searchMovie = (event) => {
         this.setState({ query: event.target.value })
     }
