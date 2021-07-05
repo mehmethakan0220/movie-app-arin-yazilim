@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import SearchBar from './SearchBar'
+import MovieList from './MovieList'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+export default class App extends Component {
+    state = {
+        movies: [],
+        query: ""
+    }
+
+
+    async componentDidMount() {
+        let response = await fetch("http://localhost:3001/movies")
+        console.log(response)
+        let data = await response.json();
+        console.log(data)
+        this.setState({ movies: data })
+    }
+
+    deleteMovie = (id) => {
+        const newMovieList = this.state.movies.filter(
+            movie => movie.id !== id
+        );
+        this.setState(state => ({ movies: newMovieList }))
+    }
+    searchMovie = (event) => {
+        this.setState({ query: event.target.value })
+    }
+    render() {
+        let filteredMovies = this.state.movies.filter(
+            (movie) => {
+                return movie.name.toLowerCase().search(this.state.query.toLowerCase()) !== -1
+            }
+        )
+        return (
+            <div className="container" >
+                <div className="row">
+                    <div className="col-lg-12">
+                        <SearchBar searchMovie={this.searchMovie} />
+                    </div>
+                </div>
+                <div className="row">
+                    <MovieList movies={filteredMovies} deleteMovie={this.deleteMovie} />
+                </div>
+            </div>
+        )
+    }
 }
 
-export default App;
