@@ -3,7 +3,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import SearchBar from './SearchBar'
 import MovieList from './MovieList'
 import axios from 'axios'
-
+require('dotenv').config()
+console.log(process.env.REACT_APP_API_KEY)
 
 
 export default class App extends Component {
@@ -21,9 +22,15 @@ export default class App extends Component {
     //     this.setState({ movies: data })
     // }
 
+    // componentDidMount() {
+    //     axios.get("http://localhost:3001/movies")
+    //         .then(res => this.setState({ movies: res.data }))
+    //         .catch(err => console.log(err))
+    // }
+
     componentDidMount() {
-        axios.get("http://localhost:3001/movies")
-            .then(res => this.setState({ movies: res.data }))
+        axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`)
+            .then(res => this.setState({ movies: res.data.results }))
             .catch(err => console.log(err))
     }
 
@@ -50,7 +57,7 @@ export default class App extends Component {
     render() {
         let filteredMovies = this.state.movies.filter(
             (movie) => {
-                return movie.name.toLowerCase().search(this.state.query.toLowerCase()) !== -1
+                return movie.title.toLowerCase().search(this.state.query.toLowerCase()) !== -1
             }
         )
         return (
