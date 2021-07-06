@@ -6,13 +6,11 @@ import axios from 'axios'
 require('dotenv').config()
 console.log(process.env.REACT_APP_API_KEY)
 
-
 export default class App extends Component {
     state = {
         movies: [],
         query: ""
     }
-
 
     // async componentDidMount() {
     //     let response = await fetch("http://localhost:3001/movies")
@@ -33,7 +31,7 @@ export default class App extends Component {
         // https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1
         // https://api.themoviedb.org/3/list/7056581?api_key=${process.env.REACT_APP_API_KEY}&language=en-US
         axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`)
-            .then(res => this.setState({ movies: res.data.items }))
+            .then(res => this.setState({ movies: res.data.results }))
             .catch(err => console.log(err))
     }
 
