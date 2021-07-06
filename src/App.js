@@ -31,7 +31,8 @@ export default class App extends Component {
     componentDidMount() {
         // for popular films
         // https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1
-        axios.get(`https://api.themoviedb.org/3/list/7056581?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`)
+        // https://api.themoviedb.org/3/list/7056581?api_key=${process.env.REACT_APP_API_KEY}&language=en-US
+        axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`)
             .then(res => this.setState({ movies: res.data.items }))
             .catch(err => console.log(err))
     }
